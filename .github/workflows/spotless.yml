@@ -1,3 +1,4 @@
+
 name: Spotless
 on: push
 permissions:
@@ -28,4 +29,6 @@ jobs:
           git config --global user.name 'Actions Bot'
           git config --global user.email 'team5338@gmail.com'
           git commit -am "Automated Spotless Apply"
-          git push"
+          git push
+          git reset --soft HEAD~2
+          git commit -am"$(git log --format=%B --reverse HEAD..HEAD@{1})"
