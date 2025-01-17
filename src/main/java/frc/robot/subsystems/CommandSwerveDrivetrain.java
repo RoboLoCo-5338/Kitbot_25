@@ -139,7 +139,8 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		return run(() -> this.setControl(requestSupplier.get()));
 	}
 
-	public void drive(double xSpeed, double ySpeed, double rotSpeed, Supplier<LegacySwerveRequest.FieldCentric> requestSupplier){
+	public void drive(double xSpeed, double ySpeed, double rotSpeed,
+			Supplier<LegacySwerveRequest.FieldCentric> requestSupplier) {
 		this.setControl(requestSupplier.get().withVelocityX(xSpeed).withVelocityY(ySpeed).withRotationalRate(rotSpeed));
 	}
 	/*

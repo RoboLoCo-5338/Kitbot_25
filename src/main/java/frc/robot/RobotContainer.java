@@ -48,7 +48,10 @@ public class RobotContainer {
 
 	// public DigitalInput armLimitSwitch = new DigitalInput(9);
 	public static final LegacySwerveRequest.FieldCentric drive = new LegacySwerveRequest.FieldCentric()
-			.withDeadband(DriveConstants.MaxSpeed * 0.1).withRotationalDeadband(DriveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
+			.withDeadband(DriveConstants.MaxSpeed * 0.1).withRotationalDeadband(DriveConstants.MaxAngularRate * 0.1) // Add
+																														// a
+																														// 10%
+																														// deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 																		// driving in open loop
 	private final LegacySwerveRequest.SwerveDriveBrake brake = new LegacySwerveRequest.SwerveDriveBrake();
@@ -62,22 +65,23 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-				drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
-																														// forward
-																														// with
+				drivetrain.applyRequest(() -> drive
+						.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
+						// forward
+						// with
 						// negative Y (forward)
 						.withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
 						.withRotationalRate(-m_driverController.getRightX() * MaxAngularRate * 0.5 * (slow ? 0.3 : 1)) // Drive
-																												// counterclockwise
-																												// with
-																												// negative
-																												// X
-																												// (left)
+				// counterclockwise
+				// with
+				// negative
+				// X
+				// (left)
 				));
 
 		m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-		m_driverController.b().whileTrue(drivetrain.applyRequest(
-				() -> point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+		m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
+				.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
 		// reset the field-centric heading on left bumper press
 		m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
@@ -121,13 +125,17 @@ public class RobotContainer {
 
 		// Trigger moveArmUp = new Trigger(() -> m_operatorController.getLeftY()> 0.1);
 		// moveArmUp.whileTrue(ArmCommands.MoveArmUpCommand());
-		// Trigger moveArmDown = new Trigger(() -> m_operatorController.getLeftY()< -0.1);
+		// Trigger moveArmDown = new Trigger(() -> m_operatorController.getLeftY()<
+		// -0.1);
 		// moveArmDown.whileTrue(ArmCommands.MoveArmDownCommand());
-		// Trigger moveArmUpSlow = new Trigger(() -> m_operatorController.getRightY()>0.1);
+		// Trigger moveArmUpSlow = new Trigger(() ->
+		// m_operatorController.getRightY()>0.1);
 		// moveArmUpSlow.whileTrue(ArmCommands.MoveArmUpSlowCommand());
-		// Trigger moveArmDownSlow = new Trigger(() -> m_operatorController.getRightY()<-0.1);
+		// Trigger moveArmDownSlow = new Trigger(() ->
+		// m_operatorController.getRightY()<-0.1);
 		// moveArmDownSlow.whileTrue(ArmCommands.MoveArmDownSlowCommand());
-		// Trigger stopArm = new Trigger(() -> Math.abs(m_operatorController.getLeftY())<0.1 &&
+		// Trigger stopArm = new Trigger(() ->
+		// Math.abs(m_operatorController.getLeftY())<0.1 &&
 		// Math.abs(m_operatorController.getRightY())<0.1);
 		// stopArm.whileTrue(ArmCommands.stopArm());
 

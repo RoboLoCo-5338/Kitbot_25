@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision {
 	private PhotonCamera camera;
-	public Vision(String cameraName){
+	public Vision(String cameraName) {
 		camera = new PhotonCamera("Rock");
 	}
 
@@ -75,10 +75,10 @@ public class Vision {
 		return Optional.empty();
 	}
 
-	public Transform3d getPose() { //TODO: Maybe swap this with the other pose estimator
+	public Transform3d getPose() { // TODO: Maybe swap this with the other pose estimator
 		var result = camera.getLatestResult();
 		if (result.getMultiTagResult().isPresent()) {
-		  return result.getMultiTagResult().get().estimatedPose.best;
+			return result.getMultiTagResult().get().estimatedPose.best;
 		}
 		return null;
 	}
