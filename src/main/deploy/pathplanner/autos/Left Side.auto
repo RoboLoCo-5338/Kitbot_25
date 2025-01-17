@@ -1,0 +1,80 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 2.47,
+      "y": 3.7
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stack Arm"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Reset Arm"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Ground Arm"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Start to B1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake In"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Arm"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B1 to Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Out"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

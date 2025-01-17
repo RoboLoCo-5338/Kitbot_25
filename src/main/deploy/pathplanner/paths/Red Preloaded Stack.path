@@ -1,0 +1,86 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.17112011741958,
+        "y": 2.435484441927148
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.141590897538271,
+        "y": 2.4533310121849827
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.7861572378014183,
+        "y": 2.435484441927148
+      },
+      "prevControl": {
+        "x": 2.0750188926869884,
+        "y": 2.454799271127186
+      },
+      "nextControl": {
+        "x": 3.9956244155985585,
+        "y": 2.402634783175524
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.567748710864956,
+        "y": 2.435484441927148
+      },
+      "prevControl": {
+        "x": 4.4066456629694555,
+        "y": 2.520443201529257
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5062893081761006,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 0.5723270440251573,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "StackBucket",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -1.9449920435897858
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
