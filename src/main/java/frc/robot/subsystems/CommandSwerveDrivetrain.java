@@ -139,6 +139,9 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		return run(() -> this.setControl(requestSupplier.get()));
 	}
 
+	public void drive(double xSpeed, double ySpeed, double rotSpeed, Supplier<LegacySwerveRequest.FieldCentric> requestSupplier){
+		this.setControl(requestSupplier.get().withVelocityX(xSpeed).withVelocityY(ySpeed).withRotationalRate(rotSpeed));
+	}
 	/*
 	 * Both the sysid commands are specific to one particular sysid routine, change
 	 * which one you're trying to characterize

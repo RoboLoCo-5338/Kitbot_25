@@ -25,10 +25,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 // import frc.robot.commands.IntakeCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.CANRollerSubsystem;
 // import frc.robot.subsystems.ArmSystem;
 // import frc.robot.subsystems.Intake;
-
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.RollerIntakeCommands;
 
 public class RobotContainer {
@@ -40,13 +41,14 @@ public class RobotContainer {
 	public static CANRollerSubsystem m_Intake = new CANRollerSubsystem();
 	private boolean slow = false;
 	/* Setting up bindings for necessary control of the swerve drive platform */
-	private final CommandXboxController joystick1 = new CommandXboxController(0); // driver
-	private final CommandXboxController joystick2 = new CommandXboxController(1); // operator
-	private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+	public static final CommandXboxController m_driverController = new CommandXboxController(0); // driver
+	public static final CommandXboxController m_operatorController = new CommandXboxController(1); // operator
+	public static final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+	public static final Vision m_vision = new Vision("Rock");
 
 	// public DigitalInput armLimitSwitch = new DigitalInput(9);
-	private final LegacySwerveRequest.FieldCentric drive = new LegacySwerveRequest.FieldCentric()
-			.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+	public static final LegacySwerveRequest.FieldCentric drive = new LegacySwerveRequest.FieldCentric()
+			.withDeadband(DriveConstants.MaxSpeed * 0.1).withRotationalDeadband(DriveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 																		// driving in open loop
 	private final LegacySwerveRequest.SwerveDriveBrake brake = new LegacySwerveRequest.SwerveDriveBrake();
@@ -60,12 +62,12 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-				drivetrain.applyRequest(() -> drive.withVelocityX(-joystick1.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
+				drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
 																														// forward
 																														// with
 						// negative Y (forward)
-						.withVelocityY(-joystick1.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * 0.5 * (slow ? 0.3 : 1)) // Drive
+						.withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+						.withRotationalRate(-m_driverController.getRightX() * MaxAngularRate * 0.5 * (slow ? 0.3 : 1)) // Drive
 																												// counterclockwise
 																												// with
 																												// negative
@@ -73,22 +75,22 @@ public class RobotContainer {
 																												// (left)
 				));
 
-		joystick1.a().whileTrue(drivetrain.applyRequest(() -> brake));
-		joystick1.b().whileTrue(drivetrain.applyRequest(
-				() -> point.withModuleDirection(new Rotation2d(-joystick1.getLeftY(), -joystick1.getLeftX()))));
+		m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+		m_driverController.b().whileTrue(drivetrain.applyRequest(
+				() -> point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
 		// reset the field-centric heading on left bumper press
-		joystick1.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+		m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
 		if (Utils.isSimulation()) {
 			drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
 		}
 		drivetrain.registerTelemetry(logger::telemeterize);
 
-		Trigger intakeIn = new Trigger(joystick2.rightBumper());
+		Trigger intakeIn = new Trigger(m_operatorController.rightBumper());
 		intakeIn.onTrue(RollerIntakeCommands.intakeInside());
 
-		Trigger intakeOut = new Trigger(joystick2.leftBumper());
+		Trigger intakeOut = new Trigger(m_operatorController.leftBumper());
 		intakeOut.onTrue(RollerIntakeCommands.intakeOutside());
 
 		// Bindings for drivetrain characterization
@@ -101,44 +103,44 @@ public class RobotContainer {
 		// joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
 		// joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-		// Trigger intakeIn = new Trigger(joystick2.rightTrigger());
+		// Trigger intakeIn = new Trigger(m_operatorController.rightTrigger());
 		// intakeIn.whileTrue(IntakeCommands.intake());
 		// intakeIn.onFalse(IntakeCommands.stopIntake());
 
-		// Trigger intakeOut = new Trigger(joystick2.leftTrigger());
+		// Trigger intakeOut = new Trigger(m_operatorController.leftTrigger());
 		// intakeOut.whileTrue(IntakeCommands.outake());
 		// intakeOut.onFalse(IntakeCommands.stopIntake());
 
-		// Trigger ArmUp = new Trigger(joystick2.rightBumper());
+		// Trigger ArmUp = new Trigger(m_operatorController.rightBumper());
 		// ArmUp.whileTrue(ArmCommands.MoveArmUpCommand());
 		// ArmUp.onFalse(ArmCommands.stopArm());
 
-		// Trigger ArmDown = new Trigger(joystick2.leftBumper());
+		// Trigger ArmDown = new Trigger(m_operatorController.leftBumper());
 		// ArmDown.whileTrue(ArmCommands.MoveArmDownCommand());
 		// ArmDown.onFalse(ArmCommands.stopArm());
 
-		// Trigger moveArmUp = new Trigger(() -> joystick2.getLeftY()> 0.1);
+		// Trigger moveArmUp = new Trigger(() -> m_operatorController.getLeftY()> 0.1);
 		// moveArmUp.whileTrue(ArmCommands.MoveArmUpCommand());
-		// Trigger moveArmDown = new Trigger(() -> joystick2.getLeftY()< -0.1);
+		// Trigger moveArmDown = new Trigger(() -> m_operatorController.getLeftY()< -0.1);
 		// moveArmDown.whileTrue(ArmCommands.MoveArmDownCommand());
-		// Trigger moveArmUpSlow = new Trigger(() -> joystick2.getRightY()>0.1);
+		// Trigger moveArmUpSlow = new Trigger(() -> m_operatorController.getRightY()>0.1);
 		// moveArmUpSlow.whileTrue(ArmCommands.MoveArmUpSlowCommand());
-		// Trigger moveArmDownSlow = new Trigger(() -> joystick2.getRightY()<-0.1);
+		// Trigger moveArmDownSlow = new Trigger(() -> m_operatorController.getRightY()<-0.1);
 		// moveArmDownSlow.whileTrue(ArmCommands.MoveArmDownSlowCommand());
-		// Trigger stopArm = new Trigger(() -> Math.abs(joystick2.getLeftY())<0.1 &&
-		// Math.abs(joystick2.getRightY())<0.1);
+		// Trigger stopArm = new Trigger(() -> Math.abs(m_operatorController.getLeftY())<0.1 &&
+		// Math.abs(m_operatorController.getRightY())<0.1);
 		// stopArm.whileTrue(ArmCommands.stopArm());
 
-		// Trigger armToScore = new Trigger(joystick2.rightBumper());
+		// Trigger armToScore = new Trigger(m_operatorController.rightBumper());
 		// armToScore.onTrue(ArmCommands.setTargetPositionCommand(Constants.scorePreset));
 
-		// Trigger armToSource = new Trigger(joystick2.b());
+		// Trigger armToSource = new Trigger(m_operatorController.b());
 		// armToSource.onTrue(ArmCommands.setTargetPositionCommand(Constants.sourcePreset));
 
-		// Trigger armToGround = new Trigger(joystick2.a());
+		// Trigger armToGround = new Trigger(m_operatorController.a());
 		// armToGround.onTrue(ArmCommands.setTargetPositionCommand(Constants.groundPreset));
 
-		Trigger slowMode = new Trigger(joystick1.rightTrigger());
+		Trigger slowMode = new Trigger(m_driverController.rightTrigger());
 		slowMode.onTrue(new InstantCommand(() -> {
 			slow = true;
 		}));
