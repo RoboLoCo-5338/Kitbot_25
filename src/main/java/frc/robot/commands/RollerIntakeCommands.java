@@ -6,12 +6,12 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.CANRollerSubsystem;
 
 public class RollerIntakeCommands {
-    public static Command intakeInside() {
-        return new InstantCommand(() -> RobotContainer.m_Intake.takeIntake());
+    public static Command intakeInside(double motorSpeed) {
+        return new InstantCommand(() -> RobotContainer.m_Intake.takeIntake(motorSpeed));
     }
 
-    public static Command intakeOutside() {
-        return new InstantCommand(() -> RobotContainer.m_Intake.takeOuttake());
+    public static Command intakeOutside(double motorSpeed) {
+        return new InstantCommand(() -> RobotContainer.m_Intake.takeOuttake(motorSpeed));
     }
     public static Command stopIntake() {
         return new InstantCommand(() -> RobotContainer.m_Intake.stopWheel());

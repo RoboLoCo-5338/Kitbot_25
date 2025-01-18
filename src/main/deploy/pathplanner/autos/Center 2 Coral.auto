@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Ground Arm"
+            "pathName": "Cage to Reef"
           }
         },
         {
@@ -17,39 +17,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Reset Arm"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Ground Arm"
+            "pathName": "Reef to Source 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake In"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Score Arm"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
+            "pathName": "Source 1 to Reef"
           }
         },
         {

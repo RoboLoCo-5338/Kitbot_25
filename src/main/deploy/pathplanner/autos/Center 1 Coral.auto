@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2m Forward"
+            "pathName": "Cage to Reef"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CoralOutake"
+            "name": "Intake Out"
           }
         }
       ]
