@@ -107,6 +107,9 @@ public class RobotContainer {
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
 		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
+		Trigger turnToTag = new Trigger(m_driverController.a());
+		turnToTag.whileTrue(VisionCommands.turnToTarget());
+
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
 		// and dynamic
