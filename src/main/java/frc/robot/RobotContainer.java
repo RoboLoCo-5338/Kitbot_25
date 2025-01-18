@@ -31,6 +31,7 @@ import frc.robot.subsystems.CANRollerSubsystem;
 // import frc.robot.subsystems.Intake;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.RollerIntakeCommands;
+import frc.robot.commands.VisionCommands;
 
 public class RobotContainer {
 	// public static ArmSystem m_arm = new ArmSystem();
@@ -96,6 +97,9 @@ public class RobotContainer {
 
 		Trigger intakeOut = new Trigger(m_operatorController.leftBumper());
 		intakeOut.onTrue(RollerIntakeCommands.intakeOutside());
+
+		Trigger turnToTag = new Trigger(m_driverController.a());
+		turnToTag.whileTrue(VisionCommands.turnToTarget());
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
