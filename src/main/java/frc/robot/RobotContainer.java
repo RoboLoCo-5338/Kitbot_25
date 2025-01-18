@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -16,6 +17,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -60,7 +63,7 @@ public class RobotContainer {
 
 	private final Telemetry logger = new Telemetry(MaxSpeed);
 
-	// private final SendableChooser<Command> autoChooser;
+	private final SendableChooser<Command> autoChooser;
 
 	private static Map<String, Command> commands = new HashMap<String, Command>();
 
@@ -93,13 +96,16 @@ public class RobotContainer {
 		drivetrain.registerTelemetry(logger::telemeterize);
 
 		Trigger intakeIn = new Trigger(m_operatorController.rightBumper());
-		intakeIn.onTrue(RollerIntakeCommands.intakeInside());
+		intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.35));
+		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
 		Trigger intakeOut = new Trigger(m_operatorController.leftBumper());
-		intakeOut.onTrue(RollerIntakeCommands.intakeOutside());
+		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.5));
+		intakeOut.onFalse(RollerIntakeCommands.stopIntake());
 
-		Trigger turnToTag = new Trigger(m_driverController.a());
-		turnToTag.whileTrue(VisionCommands.turnToTarget());
+		Trigger slowOut = new Trigger(m_operatorController.leftTrigger());
+		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
+		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
@@ -175,16 +181,21 @@ public class RobotContainer {
 		// ArmCommands.setTargetPositionCommand(Constants.sourcePreset));
 		// commands.put("Stack Arm",
 		// ArmCommands.setTargetPositionCommand(Constants.stackPreset));
+		commands.put("CoralOutake", RollerIntakeCommands.intakeOutside(0.35));
 
 		NamedCommands.registerCommands(commands);
 		configureBindings();
 
-		// autoChooser = AutoBuilder.buildAutoChooser();
+		autoChooser = AutoBuilder.buildAutoChooser();
 
-		// SmartDashboard.putData(autoChooser);
+		SmartDashboard.putData(autoChooser);
 	}
 
 	public Command getAutonomousCommand() {
-		return null;
+		return autoChooser.getSelected();
+	}
+
+	public double getRotation2DDegrees() {
+		return drivetrain.getPigeon2().getRotation2d().getDegrees();
 	}
 }
