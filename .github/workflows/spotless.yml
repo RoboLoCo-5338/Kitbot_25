@@ -30,6 +30,9 @@ jobs:
           git config --global user.email 'team5338@gmail.com'
           git commit -am "Automated Spotless Apply"
           git push
+      - name: Reset Head and Push Updated Commit
+        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
+        run: |
           git reset --soft HEAD~2
           git commit -am"$(git log --format=%B --reverse HEAD..HEAD@{1})
           git push"
