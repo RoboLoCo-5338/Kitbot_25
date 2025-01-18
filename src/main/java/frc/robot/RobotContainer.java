@@ -94,10 +94,12 @@ public class RobotContainer {
     drivetrain.registerTelemetry(logger::telemeterize);
 
     Trigger intakeIn = new Trigger(joystick2.rightBumper());
-    intakeIn.onTrue(RollerIntakeCommands.intakeInside());
+    intakeIn.whileTrue(RollerIntakeCommands.intakeInside());
+    intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
     Trigger intakeOut = new Trigger(joystick2.leftBumper());
-    intakeOut.onTrue(RollerIntakeCommands.intakeOutside());
+    intakeOut.whileTrue(RollerIntakeCommands.intakeOutside());
+    intakeOut.onFalse(RollerIntakeCommands.stopIntake());
 
     // Bindings for drivetrain characterization
     // These bindings require multiple buttons pushed to swap between quastatic
