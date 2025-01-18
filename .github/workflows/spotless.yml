@@ -1,0 +1,35 @@
+
+name: Spotless
+on: push
+permissions:
+  contents: write
+jobs:
+  spotless:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Add repository to git safe directories
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Check Spotless
+        id: spotlessCheck
+        continue-on-error: true
+        run: ./gradlew spotlessCheck
+      - name: Apply and Commit Linted File
+        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
+        run: |
+          ./gradlew spotlessApply
+          git config --global user.name 'Actions Bot'
+          git config --global user.email 'team5338@gmail.com'
+          git commit -am "Automated Spotless Apply"
+          git push
+          git reset --soft HEAD~2
+          git commit -am"$(git log --format=%B --reverse HEAD..HEAD@{1})
+          git push"
