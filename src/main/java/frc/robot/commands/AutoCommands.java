@@ -5,11 +5,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import java.util.Optional;
 
 public class AutoCommands {
@@ -25,7 +20,7 @@ public class AutoCommands {
 
 	public static Pose2d getPathPose(PathPlannerPath pPath) {
 		Optional<Alliance> alliance = DriverStation.getAlliance();
-		if(pPath.flipPath().getStartingHolonomicPose().isPresent()){
+		if (pPath.flipPath().getStartingHolonomicPose().isPresent()) {
 			if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
 				return pPath.flipPath().getStartingHolonomicPose().get();
 			}
@@ -35,11 +30,13 @@ public class AutoCommands {
 	}
 
 	// public static Command placeCoral() {
-        
-		// return new SequentialCommandGroup(
-		// 		new ParallelRaceGroup(ShooterCommands.runShooterBackwardTimed(100),
-		// 				IntakeCommands.runIndexerOutOnlyTimed(100)),
-		// 		new WaitCommand(0.25), new ParallelCommandGroup(ShooterCommands.runShooterForwardTimed(1000),
-		// 				new SequentialCommandGroup(new WaitCommand(0.75), IntakeCommands.runIntakeForwardTimed(750))));
+
+	// return new SequentialCommandGroup(
+	// new ParallelRaceGroup(ShooterCommands.runShooterBackwardTimed(100),
+	// IntakeCommands.runIndexerOutOnlyTimed(100)),
+	// new WaitCommand(0.25), new
+	// ParallelCommandGroup(ShooterCommands.runShooterForwardTimed(1000),
+	// new SequentialCommandGroup(new WaitCommand(0.75),
+	// IntakeCommands.runIntakeForwardTimed(750))));
 	// }
 }

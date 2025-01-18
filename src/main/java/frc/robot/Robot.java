@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Telemetry;
 // import frc.robot.commands.ArmCommands;
 // import frc.robot.commands.IntakeCommands;
 
@@ -28,7 +27,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Rotation 2D (degrees)", m_robotContainer.getRotation2DDegrees());
+		SmartDashboard.putNumber("Rotation 2D (degrees)", m_robotContainer.getRotation2DDegrees());
 		// SmartDashboard.putNumber("Top Limit Switch",
 		// m_robotContainer.m_arm.armMotor.getForwardLimit().getValueAsDouble());
 		// SmartDashboard.putNumber("Arm Position",

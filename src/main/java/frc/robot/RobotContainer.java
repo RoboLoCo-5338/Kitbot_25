@@ -6,23 +6,17 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import com.ctre.phoenix.platform.can.AutocacheState;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.FlippingUtil;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,7 +31,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CANRollerSubsystem;
 // import frc.robot.subsystems.ArmSystem;
 // import frc.robot.subsystems.Intake;
-import frc.robot.commands.AutoCommands;
 import frc.robot.commands.RollerIntakeCommands;
 
 public class RobotContainer {
@@ -66,7 +59,7 @@ public class RobotContainer {
 	private final SendableChooser<Command> autoChooser;
 
 	private static Map<String, Command> commands = new HashMap<String, Command>();
-  
+
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
 				drivetrain.applyRequest(() -> drive.withVelocityX(-joystick1.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
@@ -94,18 +87,17 @@ public class RobotContainer {
 		}
 		drivetrain.registerTelemetry(logger::telemeterize);
 
-    Trigger intakeIn = new Trigger(joystick1.rightBumper());
-    intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.35));
-    intakeIn.onFalse(RollerIntakeCommands.stopIntake());
+		Trigger intakeIn = new Trigger(joystick1.rightBumper());
+		intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.35));
+		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
-    Trigger intakeOut = new Trigger(joystick1.leftBumper());
-    intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.5));
-    intakeOut.onFalse(RollerIntakeCommands.stopIntake());
+		Trigger intakeOut = new Trigger(joystick1.leftBumper());
+		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.5));
+		intakeOut.onFalse(RollerIntakeCommands.stopIntake());
 
-    Trigger slowOut = new Trigger(joystick1.leftTrigger());
-    slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
-    slowOut.onFalse(RollerIntakeCommands.stopIntake());
-
+		Trigger slowOut = new Trigger(joystick1.leftTrigger());
+		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
+		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
@@ -177,8 +169,8 @@ public class RobotContainer {
 		// ArmCommands.setTargetPositionCommand(Constants.sourcePreset));
 		// commands.put("Stack Arm",
 		// ArmCommands.setTargetPositionCommand(Constants.stackPreset));
-    commands.put("CoralOutake", RollerIntakeCommands.intakeOutside(0.35));
-    
+		commands.put("CoralOutake", RollerIntakeCommands.intakeOutside(0.35));
+
 		NamedCommands.registerCommands(commands);
 		configureBindings();
 
@@ -188,10 +180,10 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+		return autoChooser.getSelected();
 	}
 
-  public double getRotation2DDegrees(){
-    return drivetrain.getPigeon2().getRotation2d().getDegrees();
-  }
+	public double getRotation2DDegrees() {
+		return drivetrain.getPigeon2().getRotation2d().getDegrees();
+	}
 }
