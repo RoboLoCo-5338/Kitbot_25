@@ -86,6 +86,7 @@ public class RobotContainer {
 		m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
 		m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
 				.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+		m_driverController.x().onTrue(new InstantCommand(() -> m_vision.updateGyro(drivetrain.getPigeon2())));
 
 		// reset the field-centric heading on left bumper press
 		m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));

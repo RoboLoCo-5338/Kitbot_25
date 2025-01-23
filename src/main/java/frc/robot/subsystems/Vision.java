@@ -8,6 +8,8 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 public class Vision {
 	private PhotonCamera camera;
 	public Vision(String cameraName) {
@@ -81,5 +83,9 @@ public class Vision {
 			return result.getMultiTagResult().get().estimatedPose.best;
 		}
 		return null;
+	}
+
+	public void updateGyro(Pigeon2 gyro){
+		gyro.setYaw(getPose().getRotation().getAngle());
 	}
 }
