@@ -15,7 +15,7 @@ public class AutoCommands {
 	public static void loadAutos() {
 		// Load all autos here in this file
 		autos = new PathPlannerAuto[1];
-			autos[0] = new PathPlannerAuto("2m forward");
+		autos[0] = new PathPlannerAuto("2m forward");
 	}
 
 	public static Pose2d getPathPose(PathPlannerPath pPath) {

@@ -29,12 +29,3 @@ jobs:
           git config --global user.email "$(git log -1 --pretty=format:'%ae')"
           git commit -am "Automated Spotless Apply"
           git push
-      - name: Reset Head Commit Update
-        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
-        continue-on-error: true
-        run: |
-          git reset --soft HEAD~2 
-          git commit -am "$(git log --format=%B --reverse HEAD..HEAD@{1})"
-      - name: Force Push
-        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
-        run: git push --force-with-lease origin
