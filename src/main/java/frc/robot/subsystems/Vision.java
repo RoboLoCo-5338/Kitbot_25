@@ -85,7 +85,7 @@ public class Vision {
 		return null;
 	}
 
-	public void updateGyro(Pigeon2 gyro){
+	public void updateGyro(Pigeon2 gyro) {
 		gyro.setYaw(getPose().getRotation().getAngle());
 	}
 }

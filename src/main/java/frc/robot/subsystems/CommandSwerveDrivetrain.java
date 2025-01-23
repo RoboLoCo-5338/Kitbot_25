@@ -202,7 +202,6 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		return m_kinematics.toChassisSpeeds(getState().ModuleStates);
 	}
 
-
 	private void startSimThread() {
 		m_lastSimTime = Utils.getCurrentTimeSeconds();
 
