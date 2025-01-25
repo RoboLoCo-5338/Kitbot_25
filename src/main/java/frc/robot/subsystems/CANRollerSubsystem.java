@@ -36,13 +36,13 @@ public class CANRollerSubsystem extends SubsystemBase {
 	public void periodic() {
 	}
 
-  public void takeIntake(double rollerSpeed) {
-    rollerMotor.set(TalonSRXControlMode.PercentOutput, rollerSpeed);
-  }
+	public void takeIntake(double rollerSpeed) {
+		rollerMotor.set(TalonSRXControlMode.PercentOutput, rollerSpeed);
+	}
 
-  public void takeOuttake(double rollerSpeed) {
-    rollerMotor.set(TalonSRXControlMode.PercentOutput, -rollerSpeed);
-  }
+	public void takeOuttake(double rollerSpeed) {
+		rollerMotor.set(TalonSRXControlMode.PercentOutput, -rollerSpeed);
+	}
 
 	public void stopWheel() {
 		rollerMotor.set(TalonSRXControlMode.PercentOutput, 0);
