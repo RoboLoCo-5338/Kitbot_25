@@ -19,14 +19,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -107,30 +105,25 @@ public class RobotContainer {
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
 		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
-		//VISION template!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:
+		// VISION template!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:
 		// Auto aim command example
-		//fix later
-		//they use keyboard we use joystick
+		// fix later
+		// they use keyboard we use joystick
 
 		// @SuppressWarnings("resource")
 		// PIDController aimController = new PIDController(0.2, 0.0, 0.0);
 		// aimController.enableContinuousInput(-Math.PI, Math.PI);
 		// keyboard
-		//     .button(1)
-		//     .whileTrue(
-		//         Commands.startRun(
-		//             () -> {
-		//               aimController.reset();
-		//             },
-		//             () -> {
-		//               drive.run(0.0, aimController.calculate(vision.getTargetX(0).getRadians()));
-		//             },
-		//             drive));
-
-
-
-
-
+		// .button(1)
+		// .whileTrue(
+		// Commands.startRun(
+		// () -> {
+		// aimController.reset();
+		// },
+		// () -> {
+		// drive.run(0.0, aimController.calculate(vision.getTargetX(0).getRadians()));
+		// },
+		// drive));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
@@ -189,36 +182,33 @@ public class RobotContainer {
 
 	}
 
-
 	private final Vision vision;
- 
+
 	public RobotContainer() {
-switch (Constants.currentMode) {
-      case REAL:
-        // Real robot, instantiate hardware IO implementations
-        
-        vision =
-            new Vision(
-                drivetrain::addVisionMeasurement,
-                new VisionIOPhotonVision(camera0Name, robotToCamera0),
-                new VisionIOPhotonVision(camera1Name, robotToCamera1));
-        break;
+		switch (Constants.currentMode) {
+			case REAL :
+				// Real robot, instantiate hardware IO implementations
 
-      case SIM:
-        // Sim robot, instantiate physics sim IO implementations
-        vision =
-            new Vision(
-                drivetrain::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drivetrain::getPose),
-                new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drivetrain::getPose));
-        break;
+				vision = new Vision(drivetrain::addVisionMeasurement,
+						new VisionIOPhotonVision(camera0Name, robotToCamera0),
+						new VisionIOPhotonVision(camera1Name, robotToCamera1));
+				break;
 
-      default:
-        // Replayed robot, disable IO implementations
-        // (Use same number of dummy implementations as the real robot)
-        vision = new Vision(drivetrain::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-        break;
-    }
+			case SIM :
+				// Sim robot, instantiate physics sim IO implementations
+				vision = new Vision(drivetrain::addVisionMeasurement,
+						new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drivetrain::getPose),
+						new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drivetrain::getPose));
+				break;
+
+			default :
+				// Replayed robot, disable IO implementations
+				// (Use same number of dummy implementations as the real robot)
+				vision = new Vision(drivetrain::addVisionMeasurement, new VisionIO() {
+				}, new VisionIO() {
+				});
+				break;
+		}
 
 		// commands.put("StackBucket", AutoCommands.stackBucket());
 		// commands.put("Score Bucket", AutoCommands.scoreBucket());
@@ -250,5 +240,4 @@ switch (Constants.currentMode) {
 		return drivetrain.getPigeon2().getRotation2d().getDegrees();
 	}
 
-	
 }

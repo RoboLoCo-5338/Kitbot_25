@@ -225,15 +225,10 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		m_simNotifier.startPeriodic(kSimLoopPeriod);
 	}
 
-	private final DifferentialDrivePoseEstimator poseEstimator =
-      new DifferentialDrivePoseEstimator(
-        //   new DifferentialDriveKinematics(Units.inchesToMeters(26)),  
-		//   Units import conflict so just manually changed from inch to meter
-		  new DifferentialDriveKinematics(0.6604),
-          new Rotation2d(),
-          0.0,
-          0.0,
-          new Pose2d());
+	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(
+			// new DifferentialDriveKinematics(Units.inchesToMeters(26)),
+			// Units import conflict so just manually changed from inch to meter
+			new DifferentialDriveKinematics(0.6604), new Rotation2d(), 0.0, 0.0, new Pose2d());
 
 	@Override
 	public void periodic() {
@@ -264,26 +259,21 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		}
 	}
 
+	@AutoLogOutput(key = "EstimatedPose")
+	public Pose2d getPose() {
+		return poseEstimator.getEstimatedPosition();
+	}
 
-	
-	 @AutoLogOutput(key = "EstimatedPose")
-  public Pose2d getPose() {
-    return poseEstimator.getEstimatedPosition();
-  }
+	/** Returns the latest estimated rotation from the pose estimator. */
+	public Rotation2d getRotation() {
+		return getPose().getRotation();
+	}
 
-  /** Returns the latest estimated rotation from the pose estimator. */
-  public Rotation2d getRotation() {
-    return getPose().getRotation();
-  }
-
-  /** Adds a new timestamped vision measurement. */
-  public void addVisionMeasurement(
-      Pose2d visionRobotPoseMeters,
-      double timestampSeconds,
-      Matrix<N3, N1> visionMeasurementStdDevs) {
-    poseEstimator.addVisionMeasurement(
-        visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
-  }
+	/** Adds a new timestamped vision measurement. */
+	public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds,
+			Matrix<N3, N1> visionMeasurementStdDevs) {
+		poseEstimator.addVisionMeasurement(visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
+	}
 	// everything after this is stuff i added - Rohit
 
 }
