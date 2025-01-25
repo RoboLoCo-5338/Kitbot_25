@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathfindingCommand;
+// import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_robotContainer = new RobotContainer();
-		PathfindingCommand.warmupCommand().schedule();
+		// PathfindingCommand.warmupCommand().schedule();
 	}
 
 	@Override

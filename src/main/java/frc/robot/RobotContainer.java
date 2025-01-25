@@ -9,10 +9,10 @@ import java.util.Map;
 
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
-import com.pathplanner.lib.auto.NamedCommands;
+// import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -63,7 +63,7 @@ public class RobotContainer {
 
 	private final Telemetry logger = new Telemetry(MaxSpeed);
 
-	private final SendableChooser<Command> autoChooser;
+	// private final SendableChooser<Command> autoChooser;
 
 	private static Map<String, Command> commands = new HashMap<String, Command>();
 
@@ -187,16 +187,17 @@ public class RobotContainer {
 		// ArmCommands.setTargetPositionCommand(Constants.stackPreset));
 		commands.put("CoralOutake", RollerIntakeCommands.intakeOutside(0.35));
 
-		NamedCommands.registerCommands(commands);
+		// NamedCommands.registerCommands(commands);
 		configureBindings();
 
-		autoChooser = AutoBuilder.buildAutoChooser();
+		// autoChooser = AutoBuilder.buildAutoChooser();
 
-		SmartDashboard.putData(autoChooser);
+		// SmartDashboard.putData(autoChooser);
 	}
 
 	public Command getAutonomousCommand() {
-		return autoChooser.getSelected();
+		// return autoChooser.getSelected();
+		return new InstantCommand();
 	}
 
 	public double getRotation2DDegrees() {
