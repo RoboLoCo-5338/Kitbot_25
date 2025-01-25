@@ -85,6 +85,8 @@ public class RobotContainer {
 		m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
 				.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 		m_driverController.x().onTrue(new InstantCommand(() -> m_vision.updateGyro(drivetrain.getPigeon2())));
+		Trigger turnToTag = new Trigger(m_driverController.y());
+		turnToTag.whileTrue(VisionCommands.turnToTarget());
 
 		// reset the field-centric heading on left bumper press
 		m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
@@ -106,8 +108,6 @@ public class RobotContainer {
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
 		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
-		Trigger turnToTag = new Trigger(m_driverController.a());
-		turnToTag.whileTrue(VisionCommands.turnToTarget());
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
