@@ -108,7 +108,6 @@ public class RobotContainer {
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
 		slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
-
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
 		// and dynamic
