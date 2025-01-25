@@ -13,7 +13,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 public class Vision {
 	private PhotonCamera camera;
 	public Vision(String cameraName) {
-		camera = new PhotonCamera("Rock");
+		camera = new PhotonCamera(cameraName);
 	}
 
 	public boolean hasResults() {

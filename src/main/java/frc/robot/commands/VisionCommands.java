@@ -28,7 +28,7 @@ public class VisionCommands {
 							return RobotContainer.drivetrain.getRotation3d().getZ()
 									- RobotContainer.m_vision.getTargetYaw();
 						})).getAsDouble())),
-				interrupted -> turnBot.accept(0), () -> RobotContainer.m_vision.getTargetYaw() < 0.1,
+				interrupted -> turnBot.accept(0), () -> Math.abs(RobotContainer.m_vision.getTargetYaw()) < 0.1,
 				RobotContainer.drivetrain);
 
 		// return new PIDCommand(turnController, () ->
@@ -61,7 +61,7 @@ public class VisionCommands {
 							return RobotContainer.drivetrain.getRotation3d().getZ()
 									- RobotContainer.m_vision.getTargetYaw(tagID);
 						})).getAsDouble())),
-				interrupted -> turnBot.accept(0), () -> RobotContainer.m_vision.getTargetYaw(tagID) < 0.1,
+				interrupted -> turnBot.accept(0), () -> Math.abs(RobotContainer.m_vision.getTargetYaw(tagID)) < 0.1,
 				RobotContainer.drivetrain);
 		// return new PIDCommand(turnController, () ->
 		// RobotContainer.m_robotDrive.getHeading(),
