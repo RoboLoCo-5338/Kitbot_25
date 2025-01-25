@@ -91,19 +91,9 @@ public class RobotContainer {
 		intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.35));
 		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
-<<<<<<< HEAD
-    Trigger intakeOut = new Trigger(joystick1.leftBumper());
-    intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.3));
-    intakeOut.onFalse(RollerIntakeCommands.stopIntake());
-
-    Trigger slowOut = new Trigger(joystick1.leftTrigger());
-    slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
-    slowOut.onFalse(RollerIntakeCommands.stopIntake());
-=======
 		Trigger intakeOut = new Trigger(joystick1.leftBumper());
-		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.5));
+		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.3));
 		intakeOut.onFalse(RollerIntakeCommands.stopIntake());
->>>>>>> 7b73e191273537b68519fe7c3b11cf7d6323b230
 
 		Trigger slowOut = new Trigger(joystick1.leftTrigger());
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
