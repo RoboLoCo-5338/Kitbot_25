@@ -4,6 +4,8 @@ import static edu.wpi.first.units.Units.Volt;
 
 import java.util.function.Supplier;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
@@ -16,9 +18,14 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.units.*;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.Units;
+// import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -28,6 +35,11 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import org.littletonrobotics.junction.AutoLogOutput;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.estimator.*;
 
 // import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 // import com.pathplanner.lib.util.PIDConstants;
@@ -213,6 +225,16 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		m_simNotifier.startPeriodic(kSimLoopPeriod);
 	}
 
+	private final DifferentialDrivePoseEstimator poseEstimator =
+      new DifferentialDrivePoseEstimator(
+        //   new DifferentialDriveKinematics(Units.inchesToMeters(26)),  
+		//   Units import conflict so just manually changed from inch to meter
+		  new DifferentialDriveKinematics(0.6604),
+          new Rotation2d(),
+          0.0,
+          0.0,
+          new Pose2d());
+
 	@Override
 	public void periodic() {
 		/* Periodically try to apply the operator perspective */
@@ -242,6 +264,26 @@ public class CommandSwerveDrivetrain extends LegacySwerveDrivetrain implements S
 		}
 	}
 
+
+	
+	 @AutoLogOutput(key = "EstimatedPose")
+  public Pose2d getPose() {
+    return poseEstimator.getEstimatedPosition();
+  }
+
+  /** Returns the latest estimated rotation from the pose estimator. */
+  public Rotation2d getRotation() {
+    return getPose().getRotation();
+  }
+
+  /** Adds a new timestamped vision measurement. */
+  public void addVisionMeasurement(
+      Pose2d visionRobotPoseMeters,
+      double timestampSeconds,
+      Matrix<N3, N1> visionMeasurementStdDevs) {
+    poseEstimator.addVisionMeasurement(
+        visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
+  }
 	// everything after this is stuff i added - Rohit
 
 }
