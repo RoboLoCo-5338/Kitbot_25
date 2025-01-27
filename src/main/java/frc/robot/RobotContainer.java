@@ -4,10 +4,10 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.Vision.VisionConstants.camera0Name;
-import static frc.robot.subsystems.Vision.VisionConstants.camera1Name;
-import static frc.robot.subsystems.Vision.VisionConstants.robotToCamera0;
-import static frc.robot.subsystems.Vision.VisionConstants.robotToCamera1;
+import static frc.robot.Constants.VisionConstants.camera0Name;
+import static frc.robot.Constants.VisionConstants.camera1Name;
+import static frc.robot.Constants.VisionConstants.robotToCamera0;
+import static frc.robot.Constants.VisionConstants.robotToCamera1;
 
 import java.util.HashMap;
 import java.util.Map;
