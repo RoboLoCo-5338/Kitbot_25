@@ -1,4 +1,3 @@
-
 name: Spotless
 on: push
 permissions:
@@ -26,13 +25,7 @@ jobs:
         if: ${{ steps.spotlessCheck.outcome == 'failure' }}
         run: |
           ./gradlew spotlessApply
-          git config --global user.name 'Actions Bot'
-          git config --global user.email 'team5338@gmail.com'
+          git config --global user.name "$(git log -1 --pretty=format:'%an')"
+          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
           git commit -am "Automated Spotless Apply"
           git push
-      - name: Reset Head and Push Updated Commit
-        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
-        run: |
-          git reset --soft HEAD~2 
-          git commit -am "$(git log --format=%B --reverse HEAD..HEAD@{1})"
-          git push --force-with-lease origin
