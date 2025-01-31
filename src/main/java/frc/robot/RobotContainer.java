@@ -4,14 +4,11 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
 import static frc.robot.Constants.VisionConstants.camera0Name;
 import static frc.robot.Constants.VisionConstants.camera1Name;
 import static frc.robot.Constants.VisionConstants.robotToCamera0;
 import static frc.robot.Constants.VisionConstants.robotToCamera1;
-=======
 import static edu.wpi.first.units.Units.MetersPerSecond;
->>>>>>> master
 
 import java.util.HashMap;
 import java.util.Map;
