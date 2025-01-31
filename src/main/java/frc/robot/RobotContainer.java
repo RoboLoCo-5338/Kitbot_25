@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 // import frc.robot.commands.IntakeCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.MusicPlayer;
 import frc.robot.subsystems.CANRollerSubsystem;
 // import frc.robot.subsystems.ArmSystem;
 // import frc.robot.subsystems.Intake;
@@ -46,6 +48,7 @@ public class RobotContainer {
 	private final CommandXboxController joystick1 = new CommandXboxController(0); // driver
 	private final CommandXboxController joystick2 = new CommandXboxController(1); // operator
 	private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+	private final MusicPlayer musicPlayer = new MusicPlayer(drivetrain);
 
 	// public DigitalInput armLimitSwitch = new DigitalInput(9);
 	private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(MaxSpeed * 0.1)
@@ -179,6 +182,7 @@ public class RobotContainer {
 		autoChooser = AutoBuilder.buildAutoChooser();
 
 		SmartDashboard.putData(autoChooser);
+		musicPlayer.toggleMusic();
 	}
 
 	public Command getAutonomousCommand() {
