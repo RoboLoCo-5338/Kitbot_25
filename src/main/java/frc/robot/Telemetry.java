@@ -1,7 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -69,7 +69,7 @@ public class Telemetry {
 					.append(new MechanismLigament2d("Direction", 0.1, 0, 0, new Color8Bit(Color.kWhite))),};
 
 	/* Accept the swerve drive state and telemeterize it to smartdashboard */
-	public void telemeterize(LegacySwerveDriveState state) {
+	public void telemeterize(SwerveDriveState state) {
 		/* Telemeterize the pose */
 		Pose2d pose = state.Pose;
 		fieldTypePub.set("Field2d");
