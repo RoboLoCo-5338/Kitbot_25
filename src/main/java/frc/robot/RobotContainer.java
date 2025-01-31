@@ -86,7 +86,7 @@ public class RobotContainer {
 				() -> point.withModuleDirection(new Rotation2d(-joystick1.getLeftY(), -joystick1.getLeftX()))));
 
 		// reset the field-centric heading on left bumper press
-		joystick1.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+		joystick1.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
 		if (Utils.isSimulation()) {
 			drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -98,7 +98,7 @@ public class RobotContainer {
 		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
 		Trigger intakeOut = new Trigger(joystick1.leftBumper());
-		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.5));
+		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.3));
 		intakeOut.onFalse(RollerIntakeCommands.stopIntake());
 
 		Trigger slowOut = new Trigger(joystick1.leftTrigger());
