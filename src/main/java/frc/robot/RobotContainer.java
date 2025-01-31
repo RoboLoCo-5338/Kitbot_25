@@ -4,19 +4,19 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,7 +36,8 @@ import frc.robot.commands.RollerIntakeCommands;
 public class RobotContainer {
 	// public static ArmSystem m_arm = new ArmSystem();
 	// public static Intake intake = new Intake();
-	private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
+	private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12VoltsMps desired top
+																					// speed
 	// originally 1.5 radians per second
 	private double MaxAngularRate = 1.0 * Math.PI; // 3/4 of a rotation per second max angular velocity
 	public static CANRollerSubsystem m_Intake = new CANRollerSubsystem();
@@ -44,15 +45,16 @@ public class RobotContainer {
 	/* Setting up bindings for necessary control of the swerve drive platform */
 	private final CommandXboxController joystick1 = new CommandXboxController(0); // driver
 	private final CommandXboxController joystick2 = new CommandXboxController(1); // operator
-	private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+	private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
 	// public DigitalInput armLimitSwitch = new DigitalInput(9);
-	private final LegacySwerveRequest.FieldCentric drive = new LegacySwerveRequest.FieldCentric()
-			.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-																		// driving in open loop
-	private final LegacySwerveRequest.SwerveDriveBrake brake = new LegacySwerveRequest.SwerveDriveBrake();
-	private final LegacySwerveRequest.PointWheelsAt point = new LegacySwerveRequest.PointWheelsAt();
+	private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(MaxSpeed * 0.1)
+			.withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+	private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+	private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+	private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+			.withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
 	private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -80,10 +82,10 @@ public class RobotContainer {
 				() -> point.withModuleDirection(new Rotation2d(-joystick1.getLeftY(), -joystick1.getLeftX()))));
 
 		// reset the field-centric heading on left bumper press
-		joystick1.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+		joystick1.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 		if (Utils.isSimulation()) {
-			drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+			drivetrain.seedFieldCentric();
 		}
 		drivetrain.registerTelemetry(logger::telemeterize);
 
