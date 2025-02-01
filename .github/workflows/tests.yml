@@ -1,0 +1,44 @@
+name: Tests
+on: push
+permissions:
+  contents: write
+jobs:
+  Set-up:
+    runs-on: ubuntu-latest
+    container: wpilib/roborio-cross-ubuntu:2025-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Add repository to git safe directories
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+  Spotless:
+    needs: Set-up
+    runs-on: ubuntu-latest
+    container: wpilib/roborio-cross-ubuntu:2025-22.04
+    steps:
+      - name: Check Spotless
+        id: spotlessCheck
+        continue-on-error: true
+        run: ./gradlew spotlessCheck
+      - name: Apply and Commit Linted File
+        if: ${{ steps.spotlessCheck.outcome == 'failure' }}
+        run: |
+          ./gradlew spotlessApply
+          git config --global user.name "$(git log -1 --pretty=format:'%an')"
+          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
+          git commit -am "Automated Spotless Apply"
+          git push
+  Build:
+    needs: Set-up
+    runs-on: ubuntu-latest
+    container: wpilib/roborio-cross-ubuntu:2025-22.04
+    steps:
+    - name: Compile and run tests on robot code
+      run: ./gradlew build
