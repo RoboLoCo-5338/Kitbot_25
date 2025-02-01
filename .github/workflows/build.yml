@@ -1,0 +1,16 @@
+name: Build
+on:
+  workflow_run:
+    workflows: ["Setup"]
+    branches: [main]
+    types: 
+      - completed
+permissions:
+  contents: write
+jobs:
+  spotless:
+    runs-on: ubuntu-latest
+    container: wpilib/roborio-cross-ubuntu:2025-22.04
+    steps:
+    - name: Compile and run tests on robot code
+      run: ./gradlew build
