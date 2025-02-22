@@ -1,0 +1,109 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RotationHomeField1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralOutake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "OutakeStop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomeField1.5"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomeField2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralOutake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "OutakeStop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomeField2.5"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomeField3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralOutake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "OutakeStop"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "HomeField3CoralAuto",
+  "choreoAuto": false
+}
