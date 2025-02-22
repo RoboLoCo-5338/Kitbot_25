@@ -39,7 +39,7 @@ public class RobotContainer {
 	private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12VoltsMps desired top
 																					// speed
 	// originally 1.5 radians per second
-	private double MaxAngularRate = 1.0 * Math.PI; // 3/4 of a rotation per second max angular velocity
+	private double MaxAngularRate = 2.0 * Math.PI; // 3/4 of a rotation per second max angular velocity
 	public static CANRollerSubsystem m_Intake = new CANRollerSubsystem();
 	private boolean slow = false;
 	/* Setting up bindings for necessary control of the swerve drive platform */
