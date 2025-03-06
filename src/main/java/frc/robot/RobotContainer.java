@@ -17,6 +17,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -83,6 +84,8 @@ public class RobotContainer {
 
 		// reset the field-centric heading on left bumper press
 		joystick1.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+		joystick1.y().onTrue(new InstantCommand(() -> Preferences.setLong("test", System.currentTimeMillis())));
 
 		if (Utils.isSimulation()) {
 			drivetrain.seedFieldCentric();
@@ -179,6 +182,7 @@ public class RobotContainer {
 		autoChooser = AutoBuilder.buildAutoChooser();
 
 		SmartDashboard.putData(autoChooser);
+		Preferences.initLong("test", -1);
 	}
 
 	public Command getAutonomousCommand() {
