@@ -90,7 +90,7 @@ public class RobotContainer {
 		drivetrain.registerTelemetry(logger::telemeterize);
 
 		Trigger intakeIn = new Trigger(joystick1.rightBumper());
-		intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.35));
+		intakeIn.whileTrue(RollerIntakeCommands.intakeInside());
 		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
 		Trigger intakeOut = new Trigger(joystick1.leftBumper());
@@ -100,6 +100,11 @@ public class RobotContainer {
 		Trigger slowOut = new Trigger(joystick1.leftTrigger());
 		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
 		slowOut.onFalse(RollerIntakeCommands.stopIntake());
+
+		joystick1.x().onTrue(new InstantCommand(() -> {
+			Constants.reloadPreferences();
+			System.out.println("RMS: " + Constants.RollerConstants.rollerMotorSpeed);
+		}));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic

@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		Constants.initPreferences();
 		m_robotContainer = new RobotContainer();
 		PathfindingCommand.warmupCommand().schedule();
 	}
