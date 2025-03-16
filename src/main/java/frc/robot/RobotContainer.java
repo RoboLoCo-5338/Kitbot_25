@@ -34,6 +34,8 @@ import frc.robot.subsystems.CANRollerSubsystem;
 import frc.robot.commands.RollerIntakeCommands;
 
 public class RobotContainer {
+
+	private boolean tipped = false;
 	// public static ArmSystem m_arm = new ArmSystem();
 	// public static Intake intake = new Intake();
 	private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12VoltsMps desired top
@@ -43,14 +45,15 @@ public class RobotContainer {
 	public static CANRollerSubsystem m_Intake = new CANRollerSubsystem();
 	private boolean slow = false;
 	/* Setting up bindings for necessary control of the swerve drive platform */
-	private final CommandXboxController joystick1 = new CommandXboxController(0); // driver
+	public final CommandXboxController joystick1 = new CommandXboxController(0); // driver
 	private final CommandXboxController joystick2 = new CommandXboxController(1); // operator
-	private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+	public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
 	// public DigitalInput armLimitSwitch = new DigitalInput(9);
 	private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(MaxSpeed * 0.1)
 			.withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+	private final SwerveRequest.RobotCentric antiTipDrive = new SwerveRequest.RobotCentric();
 	private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 	private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 	private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
@@ -192,5 +195,34 @@ public class RobotContainer {
 
 	public double getRotation2DDegrees() {
 		return drivetrain.getPigeon2().getRotation2d().getDegrees();
+	}
+
+	public double getPitch() {
+		return drivetrain.getPigeon2().getPitch().getValueAsDouble();
+	}
+
+	public double getRoll() {
+		return drivetrain.getPigeon2().getRoll().getValueAsDouble();
+	}
+
+	public double sigmoid(double input){
+		// return 1 / (1 + Math.exp(-input)) * Math.signum(input);
+		return Math.pow(input, 3);
+	}
+
+	public Command avoidTip() {
+		double rollSpeed = Math.abs(getRoll()) > (tipped ? 1.5 : 6.0) ? sigmoid(getRoll() / 30.0) * MaxSpeed * 3.0 : 0;
+		double pitchSpeed = Math.abs(getPitch()) > (tipped ? 1.5 : 6.0) ? sigmoid(getPitch() / 30.0) * MaxSpeed * 3.0 : 0;
+		SmartDashboard.putNumber("Roll speed", rollSpeed);
+		SmartDashboard.putNumber("Pitch speed", pitchSpeed);
+		if ((rollSpeed == 0 && pitchSpeed == 0) /* && Math.sqrt(Math.pow(joystick1.getLeftY(),2) + Math.pow(joystick1.getLeftX(), 2)) < 0.2 */){
+			tipped = false;
+			return drivetrain.getDefaultCommand();
+		}
+		tipped = true;
+		// System.out.println("Not 0 speed");
+		return drivetrain.applyRequest(() -> antiTipDrive.withVelocityX(rollSpeed)
+				.withVelocityY(pitchSpeed) 
+				.withRotationalRate(0));
 	}
 }

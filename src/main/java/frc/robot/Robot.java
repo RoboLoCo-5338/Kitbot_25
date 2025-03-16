@@ -29,6 +29,11 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
 		SmartDashboard.putNumber("Rotation 2D (degrees)", m_robotContainer.getRotation2DDegrees());
+		SmartDashboard.putNumber("Pithc", m_robotContainer.getPitch());
+		SmartDashboard.putNumber("Roll", m_robotContainer.getRoll());
+		SmartDashboard.putData(m_robotContainer.drivetrain.getCurrentCommand());
+		CommandScheduler.getInstance().schedule(m_robotContainer.avoidTip());
+		SmartDashboard.putNumber("Joystick 1 Left Axis Y", m_robotContainer.joystick1.getLeftY());
 		// SmartDashboard.putNumber("Top Limit Switch",
 		// m_robotContainer.m_arm.armMotor.getForwardLimit().getValueAsDouble());
 		// SmartDashboard.putNumber("Arm Position",
