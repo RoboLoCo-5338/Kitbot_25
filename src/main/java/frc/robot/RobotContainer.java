@@ -205,24 +205,28 @@ public class RobotContainer {
 		return drivetrain.getPigeon2().getRoll().getValueAsDouble();
 	}
 
-	public double sigmoid(double input){
+	public double sigmoid(double input) {
 		// return 1 / (1 + Math.exp(-input)) * Math.signum(input);
 		return Math.pow(input, 3);
 	}
 
 	public Command avoidTip() {
 		double rollSpeed = Math.abs(getRoll()) > (tipped ? 1.5 : 6.0) ? sigmoid(getRoll() / 30.0) * MaxSpeed * 3.0 : 0;
-		double pitchSpeed = Math.abs(getPitch()) > (tipped ? 1.5 : 6.0) ? sigmoid(getPitch() / 30.0) * MaxSpeed * 3.0 : 0;
+		double pitchSpeed = Math.abs(getPitch()) > (tipped ? 1.5 : 6.0)
+				? sigmoid(getPitch() / 30.0) * MaxSpeed * 3.0
+				: 0;
 		SmartDashboard.putNumber("Roll speed", rollSpeed);
 		SmartDashboard.putNumber("Pitch speed", pitchSpeed);
-		if ((rollSpeed == 0 && pitchSpeed == 0) /* && Math.sqrt(Math.pow(joystick1.getLeftY(),2) + Math.pow(joystick1.getLeftX(), 2)) < 0.2 */){
+		if ((rollSpeed == 0 && pitchSpeed == 0) /*
+												 * && Math.sqrt(Math.pow(joystick1.getLeftY(),2) +
+												 * Math.pow(joystick1.getLeftX(), 2)) < 0.2
+												 */) {
 			tipped = false;
 			return drivetrain.getDefaultCommand();
 		}
 		tipped = true;
 		// System.out.println("Not 0 speed");
-		return drivetrain.applyRequest(() -> antiTipDrive.withVelocityX(rollSpeed)
-				.withVelocityY(pitchSpeed) 
-				.withRotationalRate(0));
+		return drivetrain.applyRequest(
+				() -> antiTipDrive.withVelocityX(rollSpeed).withVelocityY(pitchSpeed).withRotationalRate(0));
 	}
 }

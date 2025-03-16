@@ -21,15 +21,13 @@ public class Constants {
 	}
 
 	public static void initPreferences() {
-		String[] subsystemIdentifiers = {
-		  "rollerMotor"
-		};
+		String[] subsystemIdentifiers = {"rollerMotor"};
 		for (String id : subsystemIdentifiers) {
-		  Preferences.initDouble(id + "Speed", 0);
+			Preferences.initDouble(id + "Speed", 0);
 		}
-	  }
-	
-	  public static void reloadPreferences() {
+	}
+
+	public static void reloadPreferences() {
 		RollerConstants.reloadConstants();
-	  }
+	}
 }
