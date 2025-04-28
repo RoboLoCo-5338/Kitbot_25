@@ -1,0 +1,17 @@
+package frc.robot.subsystems.gamepiecedetection;
+
+import java.util.function.Supplier;
+
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.math.geometry.Pose2d;
+
+public class GamePieceDetectionIOPhotonVision implements GamePieceDetectionIO{
+    protected final PhotonCamera camera;
+    protected final Supplier<Pose2d> robotPose;
+
+    public GamePieceDetectionIOPhotonVision(String name, Supplier<Pose2d> robotPose) {
+        camera = new PhotonCamera(name);
+        this.robotPose = robotPose;
+    }
+}
