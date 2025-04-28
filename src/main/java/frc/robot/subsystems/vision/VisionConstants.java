@@ -30,7 +30,8 @@ public class VisionConstants {
           new Rotation3d(0.0, -0.0, Math.PI));
 
   // Basic filtering thresholds
-  public static double maxAmbiguity = 0.3;
+  public static double maxOdometryAmbiguity = 0.3;
+  public static double maxGamePieceDetectionAmbiguity = 0.5;
   public static double maxZError = 0.75;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag
@@ -50,4 +51,7 @@ public class VisionConstants {
   public static double linearStdDevMegatag2Factor = 0.5; // More stable than full 3D solve
   public static double angularStdDevMegatag2Factor =
       Double.POSITIVE_INFINITY; // No rotation data available
+
+  // Minimum distance two different game pieces need to be
+  public static double MIN_SAME_OBJECT_THRESHHOLD = 0.02;
 }
