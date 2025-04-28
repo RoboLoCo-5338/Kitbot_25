@@ -2,9 +2,9 @@ package frc.robot.subsystems.gamepiecedetection;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
-public record GamePiece(double timestamp, GamePieceTypes types, Pose2d pose, double ambiguity) {}
+public record GamePiece(double timestamp, GamePieceType types, Pose2d pose, double ambiguity) {}
 
-enum GamePieceTypes {
+enum GamePieceType {
   Coral,
   Algae
 }
