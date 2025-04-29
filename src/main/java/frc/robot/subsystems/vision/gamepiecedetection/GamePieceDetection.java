@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.vision.VisionConstants;
 import java.util.LinkedList;
 import java.util.List;
 import org.littletonrobotics.junction.Logger;
@@ -45,9 +44,9 @@ public class GamePieceDetection extends SubsystemBase {
 
       for (GamePiece gamePiece : inputs[cameraIndex].gamePieces) {
         gamePiecePoses.add(gamePiece.pose);
-        if (gamePiece.ambiguity < VisionConstants.maxGamePieceDetectionAmbiguity) {
-          boolean alreadyExists = false;
-        }
+        // if (gamePiece.ambiguity < VisionConstants.maxGamePieceDetectionAmbiguity) {
+        //   boolean alreadyExists = false;
+        // }
       }
     }
   }
