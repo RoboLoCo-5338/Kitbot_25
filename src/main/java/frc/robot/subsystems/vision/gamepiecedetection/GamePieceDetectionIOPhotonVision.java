@@ -49,13 +49,6 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
                     robotToCamera.getRotation().getY(),
                     Units.degreesToRadians(target.getPitch())),
                 Rotation2d.fromDegrees(target.getYaw()));
-        Logger.recordOutput(
-            "Target translation magnitude",
-            PhotonUtils.calculateDistanceToTargetMeters(
-                Constants.FLOOR_TO_MECHANISM + robotToCamera.getZ(),
-                0,
-                robotToCamera.getRotation().getY(),
-                target.getPitch()));
         Pose3d targetPose =
             new Pose3d(robotPose.get())
                 .plus(robotToCamera)
