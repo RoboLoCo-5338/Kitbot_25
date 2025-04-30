@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.DetectionType;
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePiece;
@@ -46,8 +47,8 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
                     Constants.FLOOR_TO_MECHANISM + robotToCamera.getZ(),
                     0,
                     robotToCamera.getRotation().getY(),
-                    target.getPitch()),
-                new Rotation2d(target.getYaw()));
+                    Units.degreesToRadians(target.getPitch())),
+                Rotation2d.fromDegrees(target.getYaw()));
         Logger.recordOutput(
             "Target translation magnitude",
             PhotonUtils.calculateDistanceToTargetMeters(
@@ -55,7 +56,6 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
                 0,
                 robotToCamera.getRotation().getY(),
                 target.getPitch()));
-        Logger.recordOutput("test", new Pose3d(robotPose.get()).plus(robotToCamera));
         Pose3d targetPose =
             new Pose3d(robotPose.get())
                 .plus(robotToCamera)
