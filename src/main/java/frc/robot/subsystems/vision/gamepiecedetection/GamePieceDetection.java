@@ -45,16 +45,17 @@ public class GamePieceDetection extends SubsystemBase {
 
       for (GamePiece gamePiece : inputs[cameraIndex].gamePieces) {
         gamePiecePoses.add(gamePiece.pose);
-        if(gamePiece.ambiguity()<0.5 && (gamePiece.detectionType==DetectionType.Color || gamePiece.confidence>0.8)){
+        if (gamePiece.ambiguity() < 0.5
+            && (gamePiece.detectionType == DetectionType.Color || gamePiece.confidence > 0.8)) {
           acceptedGamePieces.add(gamePiece);
         }
       }
       allGamePiecePoses.addAll(gamePiecePoses);
-      //TODO: add logic to merge accepted game pieces
+      // TODO: add logic to merge accepted game pieces
     }
     Logger.recordOutput(
-          "Vision/AllGamePiecePoses",
-          allGamePiecePoses.toArray(new Pose3d[allGamePiecePoses.size()]));
+        "Vision/AllGamePiecePoses",
+        allGamePiecePoses.toArray(new Pose3d[allGamePiecePoses.size()]));
   }
 
   private static double getMagnitude(Transform3d transform3d) {
@@ -65,14 +66,19 @@ public class GamePieceDetection extends SubsystemBase {
   }
 
   public static record GamePiece(
-      double timestamp, GamePieceType type, Pose3d pose, double ambiguity, DetectionType detectionType, float confidence) {}
+      double timestamp,
+      GamePieceType type,
+      Pose3d pose,
+      double ambiguity,
+      DetectionType detectionType,
+      float confidence) {}
 
   enum GamePieceType {
     Coral,
     Algae
   }
 
-  enum DetectionType{
+  enum DetectionType {
     Color,
     Object
   }

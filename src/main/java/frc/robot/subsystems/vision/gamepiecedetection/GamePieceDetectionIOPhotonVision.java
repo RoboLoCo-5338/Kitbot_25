@@ -8,7 +8,6 @@ import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePie
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePieceType;
 import java.util.LinkedList;
 import java.util.function.Supplier;
-
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -23,11 +22,12 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
   public GamePieceDetectionIOPhotonVision(
       String name,
       Supplier<Pose2d> robotPose,
-      Transform3d robotToCamera, DetectionType detectionType) {
+      Transform3d robotToCamera,
+      DetectionType detectionType) {
     camera = new PhotonCamera(name);
     this.robotPose = robotPose;
     this.robotToCamera = robotToCamera;
-    this.detectionType=detectionType;
+    this.detectionType = detectionType;
   }
 
   @Override
@@ -40,7 +40,12 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
             new Pose3d(robotPose.get()).plus(robotToCamera).plus(target.getBestCameraToTarget());
         gamePieces.add(
             new GamePiece(
-                result.getTimestampSeconds(), getDetectedType(target), targetPose, target.poseAmbiguity, detectionType, getConfidence(target)));
+                result.getTimestampSeconds(),
+                getDetectedType(target),
+                targetPose,
+                target.poseAmbiguity,
+                detectionType,
+                getConfidence(target)));
       }
     }
     inputs.gamePieces = new GamePiece[gamePieces.size()];
@@ -48,10 +53,11 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
       inputs.gamePieces[i] = gamePieces.get(i);
     }
     Logger.recordOutput(
-          "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesAccepted",
-          robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
+        "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesAccepted",
+        robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
   }
 
   public abstract GamePieceType getDetectedType(PhotonTrackedTarget target);
+
   public abstract float getConfidence(PhotonTrackedTarget target);
 }
