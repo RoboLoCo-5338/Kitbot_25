@@ -26,6 +26,6 @@ public class GamePieceColorDetectionIOPhotonVision extends GamePieceDetectionIOP
 
   @Override
   public float getConfidence(PhotonTrackedTarget target) {
-    return 0;
+    return -1;
   }
 }
