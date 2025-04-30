@@ -12,7 +12,6 @@ import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePie
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePieceType;
 import java.util.LinkedList;
 import java.util.function.Supplier;
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
