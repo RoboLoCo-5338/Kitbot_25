@@ -2,7 +2,10 @@ package frc.robot.subsystems.vision.gamepiecedetection;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.Constants;
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.DetectionType;
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePiece;
 import frc.robot.subsystems.vision.gamepiecedetection.GamePieceDetection.GamePieceType;
@@ -10,6 +13,7 @@ import java.util.LinkedList;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -36,8 +40,29 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
     inputs.connected = camera.isConnected();
     for (PhotonPipelineResult result : camera.getAllUnreadResults()) {
       for (PhotonTrackedTarget target : result.getTargets()) {
+        Translation2d targetTranslation =
+            PhotonUtils.estimateCameraToTargetTranslation(
+                PhotonUtils.calculateDistanceToTargetMeters(
+                    Constants.FLOOR_TO_MECHANISM + robotToCamera.getZ(),
+                    0,
+                    robotToCamera.getRotation().getY(),
+                    target.getPitch()),
+                new Rotation2d(target.getYaw()));
+        Logger.recordOutput(
+            "Target translation magnitude",
+            PhotonUtils.calculateDistanceToTargetMeters(
+                Constants.FLOOR_TO_MECHANISM + robotToCamera.getZ(),
+                0,
+                robotToCamera.getRotation().getY(),
+                target.getPitch()));
+        Logger.recordOutput("test", new Pose3d(robotPose.get()).plus(robotToCamera));
         Pose3d targetPose =
-            new Pose3d(robotPose.get()).plus(robotToCamera).plus(target.getBestCameraToTarget());
+            new Pose3d(robotPose.get())
+                .plus(robotToCamera)
+                .plus(
+                    new Transform3d(
+                        PhotonUtils.estimateCameraToTarget(
+                            targetTranslation, new Pose2d(), robotPose.get().getRotation())));
         gamePieces.add(
             new GamePiece(
                 result.getTimestampSeconds(),
@@ -52,9 +77,6 @@ public abstract class GamePieceDetectionIOPhotonVision implements GamePieceDetec
     for (int i = 0; i < gamePieces.size(); i++) {
       inputs.gamePieces[i] = gamePieces.get(i);
     }
-    Logger.recordOutput(
-        "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesAccepted",
-        robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
   }
 
   public abstract GamePieceType getDetectedType(PhotonTrackedTarget target);

@@ -17,8 +17,12 @@ public class GamePieceDetection extends SubsystemBase {
 
   public GamePieceDetection(GamePieceDetectionIO... io) {
     this.io = io;
-    this.inputs = new GamePieceDetectionIOInputsAutoLogged[io.length];
 
+    // Initialize inputs
+    this.inputs = new GamePieceDetectionIOInputsAutoLogged[io.length];
+    for (int i = 0; i < inputs.length; i++) {
+      inputs[i] = new GamePieceDetectionIOInputsAutoLogged();
+    }
     // Initialize disconnected alerts
     this.disconnectedAlerts = new Alert[io.length];
     for (int i = 0; i < inputs.length; i++) {
@@ -73,12 +77,12 @@ public class GamePieceDetection extends SubsystemBase {
       DetectionType detectionType,
       float confidence) {}
 
-  enum GamePieceType {
+  public static enum GamePieceType {
     Coral,
     Algae
   }
 
-  enum DetectionType {
+  public static enum DetectionType {
     Color,
     Object
   }
