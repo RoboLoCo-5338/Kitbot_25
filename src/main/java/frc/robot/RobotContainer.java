@@ -64,17 +64,25 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-				drivetrain.applyRequest(() -> drive.withVelocityX(-Math.pow(joystick1.getLeftY(),2) * Math.signum(joystick1.getLeftY()) * MaxSpeed * (slow ? 0.3 : 1)) // Drive
-																														// forward
-																														// with
+				drivetrain.applyRequest(() -> drive
+						.withVelocityX(-Math.pow(joystick1.getLeftY(), 2) * Math.signum(joystick1.getLeftY()) * MaxSpeed
+								* (slow ? 0.3 : 1)) // Drive
+						// forward
+						// with
 						// negative Y (forward)
-						.withVelocityY(-Math.pow(joystick1.getLeftX(),2) * Math.signum(joystick1.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+						.withVelocityY(
+								-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed) // Drive
+																													// left
+																													// with
+																													// negative
+																													// X
+																													// (left)
 						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 1)) // Drive
-																												// counterclockwise
-																												// with
-																												// negative
-																												// X
-																												// (left)
+																										// counterclockwise
+																										// with
+																										// negative
+																										// X
+																										// (left)
 				));
 
 		joystick1.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -163,10 +171,10 @@ public class RobotContainer {
 
 		// Trigger slowMode = new Trigger(joystick1.rightTrigger());
 		// slowMode.onTrue(new InstantCommand(() -> {
-		// 	slow = true;
+		// slow = true;
 		// }));
 		// slowMode.onFalse(new InstantCommand(() -> {
-		// 	slow = false;
+		// slow = false;
 		// }));
 
 	}
