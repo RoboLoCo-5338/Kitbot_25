@@ -64,12 +64,12 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-				drivetrain.applyRequest(() -> drive.withVelocityX(-joystick1.getLeftY() * MaxSpeed * (slow ? 0.3 : 1)) // Drive
+				drivetrain.applyRequest(() -> drive.withVelocityX(-Math.pow(joystick1.getLeftY(),2) * Math.signum(joystick1.getLeftY()) * MaxSpeed * (slow ? 0.3 : 1)) // Drive
 																														// forward
 																														// with
 						// negative Y (forward)
-						.withVelocityY(-joystick1.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * 0.5 * (slow ? 0.3 : 1)) // Drive
+						.withVelocityY(-Math.pow(joystick1.getLeftX(),2) * Math.signum(joystick1.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 1)) // Drive
 																												// counterclockwise
 																												// with
 																												// negative
@@ -90,16 +90,24 @@ public class RobotContainer {
 		drivetrain.registerTelemetry(logger::telemeterize);
 
 		Trigger intakeIn = new Trigger(joystick1.rightBumper());
-		intakeIn.whileTrue(RollerIntakeCommands.intakeInside());
+		intakeIn.whileTrue(RollerIntakeCommands.intakeInside(0.5));
 		intakeIn.onFalse(RollerIntakeCommands.stopIntake());
 
-		Trigger intakeOut = new Trigger(joystick1.leftBumper());
+		Trigger intakeIn2 = new Trigger(joystick1.leftBumper());
+		intakeIn2.whileTrue(RollerIntakeCommands.intakeInside(0.5));
+		intakeIn2.onFalse(RollerIntakeCommands.stopIntake());
+
+		Trigger intakeOut = new Trigger(joystick1.leftTrigger());
 		intakeOut.whileTrue(RollerIntakeCommands.intakeOutside(0.3));
 		intakeOut.onFalse(RollerIntakeCommands.stopIntake());
 
-		Trigger slowOut = new Trigger(joystick1.leftTrigger());
-		slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
-		slowOut.onFalse(RollerIntakeCommands.stopIntake());
+		Trigger intakeOut2 = new Trigger(joystick1.rightTrigger());
+		intakeOut2.whileTrue(RollerIntakeCommands.intakeOutside(0.3));
+		intakeOut2.onFalse(RollerIntakeCommands.stopIntake());
+
+		// Trigger slowOut = new Trigger(joystick1.leftTrigger());
+		// slowOut.whileTrue(RollerIntakeCommands.intakeOutside(0.2));
+		// slowOut.onFalse(RollerIntakeCommands.stopIntake());
 
 		joystick1.x().onTrue(new InstantCommand(() -> {
 			Constants.reloadPreferences();
@@ -153,13 +161,13 @@ public class RobotContainer {
 		// Trigger armToGround = new Trigger(joystick2.a());
 		// armToGround.onTrue(ArmCommands.setTargetPositionCommand(Constants.groundPreset));
 
-		Trigger slowMode = new Trigger(joystick1.rightTrigger());
-		slowMode.onTrue(new InstantCommand(() -> {
-			slow = true;
-		}));
-		slowMode.onFalse(new InstantCommand(() -> {
-			slow = false;
-		}));
+		// Trigger slowMode = new Trigger(joystick1.rightTrigger());
+		// slowMode.onTrue(new InstantCommand(() -> {
+		// 	slow = true;
+		// }));
+		// slowMode.onFalse(new InstantCommand(() -> {
+		// 	slow = false;
+		// }));
 
 	}
 

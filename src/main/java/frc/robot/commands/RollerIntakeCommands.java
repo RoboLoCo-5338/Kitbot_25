@@ -6,8 +6,8 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class RollerIntakeCommands {
-	public static Command intakeInside() {
-		return new InstantCommand(() -> RobotContainer.m_Intake.takeIntake(Constants.RollerConstants.rollerMotorSpeed));
+	public static Command intakeInside(double motorSpeed) {
+		return new InstantCommand(() -> RobotContainer.m_Intake.takeIntake(motorSpeed));
 	}
 
 	public static Command intakeOutside(double motorSpeed) {
