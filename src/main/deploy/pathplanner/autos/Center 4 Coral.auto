@@ -92,6 +92,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "ReefscapeMiddleAuto",
+  "folder": null,
   "choreoAuto": false
 }
