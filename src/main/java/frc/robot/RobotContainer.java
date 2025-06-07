@@ -193,7 +193,7 @@ public class RobotContainer {
 		// commands.put("Stack Arm",
 		// ArmCommands.setTargetPositionCommand(Constants.stackPreset));
 		commands.put("CoralOutake", RollerIntakeCommands.intakeOutside(0.35));
-
+		commands.put("StopOutake", RollerIntakeCommands.stopIntake());
 		NamedCommands.registerCommands(commands);
 		configureBindings();
 
