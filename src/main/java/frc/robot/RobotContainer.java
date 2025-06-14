@@ -195,8 +195,7 @@ public class RobotContainer {
 		commands.put("StopOutake", RollerIntakeCommands.stopIntake());
 		NamedCommands.registerCommands(commands);
 		configureBindings();
-
-		autoChooser = AutoBuilder.buildAutoChooser();
+		autoChooser = AutoBuilder.buildAutoChooser("Center 1 Coral");
 
 		SmartDashboard.putData(autoChooser);
 	}
