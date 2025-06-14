@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Drift Center 1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "Right 1"
           }
         },
         {
@@ -21,11 +15,23 @@
           "data": {
             "name": "CoralOutake"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopOutake"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Right",
   "choreoAuto": false
 }

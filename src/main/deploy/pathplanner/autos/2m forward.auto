@@ -9,12 +9,6 @@
           "data": {
             "pathName": "2m Forward"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralOutake"
-          }
         }
       ]
     }

@@ -7,91 +7,67 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Cage to Reef"
+            "pathName": "Left 1"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "CoralOutake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reef to Source 1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Source 1 to Reef"
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CoralOutake"
+            "name": "StopOutake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Reef to Source 2"
+            "pathName": "Left 1.5"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source 2 to Reef"
+            "pathName": "Left 2"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "CoralOutake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reef to Source 3"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Source 3 to Reef"
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CoralOutake"
+            "name": "StopOutake"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left",
   "choreoAuto": false
 }

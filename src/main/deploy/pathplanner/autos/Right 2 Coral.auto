@@ -5,63 +5,75 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Ground Arm"
+            "pathName": "Right 1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Out"
+            "name": "CoralOutake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Reset Arm"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Ground Arm"
+            "name": "StopOutake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Right 1.5"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Intake In"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Score Arm"
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Right 2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Out"
+            "name": "CoralOutake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopOutake"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Right",
   "choreoAuto": false
 }
