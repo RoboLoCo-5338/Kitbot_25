@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.subsystems.SimMechanism;
 import frc.robot.subsystems.roller.RollerConstants.RollerSimConstants;
 
-public class RollerIOSim extends SimMechanism implements RollerIO {
+public class RollerIOSim extends RollerIO implements SimMechanism {
   TalonSRXSimCollection simMotor = rollerMotor.getSimCollection();
   FlywheelSim physicsSim =
       new FlywheelSim(

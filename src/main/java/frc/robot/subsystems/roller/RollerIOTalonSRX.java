@@ -1,52 +1,47 @@
+// Copyright 2021-2025 FRC 6328
+// http://github.com/Mechanical-Advantage
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// version 3 as published by the Free Software Foundation or
+// available in the root directory of this project.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+
 package frc.robot.subsystems.roller;
 
-public class RollerIOTalonSRX implements RollerIO {
+import static frc.robot.subsystems.roller.RollerConstants.*;
+import static frc.robot.util.PhoenixUtil.tryUntilOkV5;
 
-  // private final StatusSignal<AngularVelocity> rollerVelocity;
-  // private final StatusSignal<Voltage> rollerAppliedVolts;
-  // private final StatusSignal<Current> rollerCurrent;
-  // private final StatusSignal<Temperature> rollerTemperature;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
-  // private final Debouncer effectorDebouncer = new Debouncer(0.5);
+/** This drive implementation is for a Talon SRX driving a brushed motor. */
+public class RollerIOTalonSRX extends RollerIO {
+  private final TalonSRX roller = new TalonSRX(ROLLER_MOTOR_ID);
 
   public RollerIOTalonSRX() {
+    var config = new TalonSRXConfiguration();
+    config.peakCurrentLimit = ROLLER_MOTOR_CURRENT_LIMIT;
+    config.continuousCurrentLimit = ROLLER_MOTOR_CURRENT_LIMIT - 15;
+    config.peakCurrentDuration = 250;
+    config.voltageCompSaturation = 12.0;
 
-    // rollerVelocity = rollerMotor.getVelocity();
-    // rollerAppliedVolts = rollerMotor.getMotorVoltage();
-    // rollerCurrent = rollerMotor.getStatorCurrent();
-    // rollerTemperature = rollerMotor.getDeviceTemp();
-
-    // rollerMotor.getConfigurator().apply(getRollerConfiguration());
-
-    // tryUntilOk(
-    //     5,
-    //     () ->
-    //         BaseStatusSignal.setUpdateFrequencyForAll(
-    //             50.0, rollerVelocity, rollerAppliedVolts, rollerCurrent));
-
-    // ParentDevice.optimizeBusUtilizationForAll(rollerMotor);
+    tryUntilOkV5(5, () -> roller.configAllSettings(config));
   }
 
-  // @Override
-  // public void updateInputs(RollerIOInputs inputs) {
-  //   var motor1Status =
-  //       BaseStatusSignal.refreshAll(rollerVelocity, rollerCurrent, rollerAppliedVolts);
+  @Override
+  public void updateInputs(RollerIOInputs inputs) {
+    inputs.rollerAppliedVolts = roller.getMotorOutputVoltage();
+    inputs.rollerCurrentAmps = roller.getStatorCurrent();
+  }
 
-  //   inputs.rollerConnected = effectorDebouncer.calculate(motor1Status.isOK());
-  //   inputs.rollerVelocity = Units.rotationsToRadians(rollerVelocity.getValueAsDouble());
-  //   inputs.rollerAppliedVolts = rollerAppliedVolts.getValueAsDouble();
-  //   inputs.rollerCurrentAmps = rollerCurrent.getValueAsDouble();
-  //   inputs.rollerTemperature = rollerTemperature.getValueAsDouble();
-  // }
-
-  // @Override
-  // public void setRollerVelocity(double velocity) {
-  //   rollerMotor.setControl(
-  //       rollerVelocityRequest.withVelocity(velocity * EndEffectorConstants.GEARING));
-  // }
-
-  // @Override
-  // public void setRollerSpeed(double speed) {
-  //   rollerMotor.set(speed);
-  // }
+  @Override
+  public void setVoltage(double volts) {
+    roller.set(TalonSRXControlMode.PercentOutput, volts / 12.0);
+  }
 }
