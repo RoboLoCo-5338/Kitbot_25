@@ -77,11 +77,11 @@ public class RobotContainer {
 																													// X
 																													// (left)
 						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.5)) // Drive
-																										// counterclockwise
-																										// with
-																										// negative
-																										// X
-																										// (left)
+																											// counterclockwise
+																											// with
+																											// negative
+																											// X
+																											// (left)
 				));
 
 		joystick1.a().whileTrue(drivetrain.applyRequest(() -> brake));
