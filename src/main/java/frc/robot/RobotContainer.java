@@ -76,7 +76,7 @@ public class RobotContainer {
 																													// negative
 																													// X
 																													// (left)
-						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 1)) // Drive
+						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.5)) // Drive
 																										// counterclockwise
 																										// with
 																										// negative
