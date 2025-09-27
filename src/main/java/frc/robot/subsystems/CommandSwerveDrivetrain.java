@@ -21,6 +21,7 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -257,6 +258,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 						: kBlueAlliancePerspectiveRotation);
 				m_hasAppliedOperatorPerspective = true;
 			});
+		}
+		for(int i=0; i<4; i++) {
+			SmartDashboard.putNumber("Drive Motor Current:" + i, getModule(i).getDriveMotor().getStatorCurrent().getValueAsDouble());
+			SmartDashboard.putNumber("Steer Motor Current:" + i, getModule(i).getSteerMotor().getStatorCurrent().getValueAsDouble());
 		}
 	}
 
