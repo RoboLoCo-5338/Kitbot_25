@@ -259,9 +259,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 				m_hasAppliedOperatorPerspective = true;
 			});
 		}
-		for(int i=0; i<4; i++) {
-			SmartDashboard.putNumber("Drive Motor Current:" + i, getModule(i).getDriveMotor().getStatorCurrent().getValueAsDouble());
-			SmartDashboard.putNumber("Steer Motor Current:" + i, getModule(i).getSteerMotor().getStatorCurrent().getValueAsDouble());
+		for (int i = 0; i < 4; i++) {
+			SmartDashboard.putNumber("Drive Motor Current:" + i,
+					getModule(i).getDriveMotor().getStatorCurrent().getValueAsDouble());
+			SmartDashboard.putNumber("Steer Motor Current:" + i,
+					getModule(i).getSteerMotor().getStatorCurrent().getValueAsDouble());
 		}
 	}
 
