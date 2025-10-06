@@ -71,13 +71,13 @@ public class RobotContainer {
 						// forward
 						// with
 						// negative Y (forward)
-						.withVelocityY(
-								-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed* (slow ? 0.2 : 1)) // Drive
-																													// left
-																													// with
-																													// negative
-																													// X
-																													// (left)
+						.withVelocityY(-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed
+								* (slow ? 0.2 : 1)) // Drive
+						// left
+						// with
+						// negative
+						// X
+						// (left)
 						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.5)) // Drive
 																											// counterclockwise
 																											// with
@@ -123,7 +123,7 @@ public class RobotContainer {
 			System.out.println("RMS: " + Constants.RollerConstants.rollerMotorSpeed);
 		}));
 
-		joystick1.y().onTrue(Commands.runOnce( () -> drivetrain.resetPose(new Pose2d())));
+		joystick1.y().onTrue(Commands.runOnce(() -> drivetrain.resetPose(new Pose2d())));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
