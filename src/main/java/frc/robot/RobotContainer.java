@@ -15,10 +15,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -40,7 +42,7 @@ public class RobotContainer {
 	// originally 1.5 radians per second
 	private double MaxAngularRate = 2.0 * Math.PI; // 3/4 of a rotation per second max angular velocity
 	public static CANRollerSubsystem m_Intake = new CANRollerSubsystem();
-	private boolean slow = false;
+	private boolean slow = true;
 	/* Setting up bindings for necessary control of the swerve drive platform */
 	private final CommandXboxController joystick1 = new CommandXboxController(0); // driver
 	private final CommandXboxController joystick2 = new CommandXboxController(1); // operator
@@ -65,12 +67,12 @@ public class RobotContainer {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
 				drivetrain.applyRequest(() -> drive
 						.withVelocityX(-Math.pow(joystick1.getLeftY(), 2) * Math.signum(joystick1.getLeftY()) * MaxSpeed
-								* (slow ? 0.3 : 1)) // Drive
+								* (slow ? 0.2 : 1)) // Drive
 						// forward
 						// with
 						// negative Y (forward)
 						.withVelocityY(
-								-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed) // Drive
+								-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed* (slow ? 0.2 : 1)) // Drive
 																													// left
 																													// with
 																													// negative
@@ -120,6 +122,8 @@ public class RobotContainer {
 			Constants.reloadPreferences();
 			System.out.println("RMS: " + Constants.RollerConstants.rollerMotorSpeed);
 		}));
+
+		joystick1.y().onTrue(Commands.runOnce( () -> drivetrain.resetPose(new Pose2d())));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
