@@ -15,6 +15,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -64,19 +65,19 @@ public class RobotContainer {
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
 				drivetrain.applyRequest(() -> drive
-						.withVelocityX(-Math.pow(joystick1.getLeftY(), 2) * Math.signum(joystick1.getLeftY()) * MaxSpeed
-								* (slow ? 0.3 : 1)) // Drive
+						.withVelocityX(-Math.pow(joystick1.getLeftY(), 3) /* Math.signum(joystick1.getLeftY())*/ * MaxSpeed
+								* (slow ? 0.3 : 0.8)) // Drive
 						// forward
 						// with
 						// negative Y (forward)
 						.withVelocityY(
-								-Math.pow(joystick1.getLeftX(), 2) * Math.signum(joystick1.getLeftX()) * MaxSpeed) // Drive
+								-Math.pow(joystick1.getLeftX(), 3)  /* Math.signum(joystick1.getLeftX()) */ * MaxSpeed *(slow ? 0.3: 0.8))  // Drive
 																													// left
 																													// with
 																													// negative
 																													// X
 																													// (left)
-						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.5)) // Drive
+						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.4)) // Drive
 																											// counterclockwise
 																											// with
 																											// negative
@@ -120,6 +121,8 @@ public class RobotContainer {
 			Constants.reloadPreferences();
 			System.out.println("RMS: " + Constants.RollerConstants.rollerMotorSpeed);
 		}));
+
+		joystick1.y().onTrue(new InstantCommand(() -> {drivetrain.resetPose(new Pose2d());}));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
