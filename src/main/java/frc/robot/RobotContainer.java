@@ -65,18 +65,18 @@ public class RobotContainer {
 	private void configureBindings() {
 		drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
 				drivetrain.applyRequest(() -> drive
-						.withVelocityX(-Math.pow(joystick1.getLeftY(), 3) /* Math.signum(joystick1.getLeftY())*/ * MaxSpeed
-								* (slow ? 0.3 : 0.8)) // Drive
+						.withVelocityX(-Math.pow(joystick1.getLeftY(), 3)
+								/* Math.signum(joystick1.getLeftY()) */ * MaxSpeed * (slow ? 0.3 : 0.8)) // Drive
 						// forward
 						// with
 						// negative Y (forward)
-						.withVelocityY(
-								-Math.pow(joystick1.getLeftX(), 3)  /* Math.signum(joystick1.getLeftX()) */ * MaxSpeed *(slow ? 0.3: 0.8))  // Drive
-																													// left
-																													// with
-																													// negative
-																													// X
-																													// (left)
+						.withVelocityY(-Math.pow(joystick1.getLeftX(), 3)
+								/* Math.signum(joystick1.getLeftX()) */ * MaxSpeed * (slow ? 0.3 : 0.8)) // Drive
+						// left
+						// with
+						// negative
+						// X
+						// (left)
 						.withRotationalRate(-joystick1.getRightX() * MaxAngularRate * (slow ? 0.3 : 0.4)) // Drive
 																											// counterclockwise
 																											// with
@@ -122,7 +122,9 @@ public class RobotContainer {
 			System.out.println("RMS: " + Constants.RollerConstants.rollerMotorSpeed);
 		}));
 
-		joystick1.y().onTrue(new InstantCommand(() -> {drivetrain.resetPose(new Pose2d());}));
+		joystick1.y().onTrue(new InstantCommand(() -> {
+			drivetrain.resetPose(new Pose2d());
+		}));
 
 		// Bindings for drivetrain characterization
 		// These bindings require multiple buttons pushed to swap between quastatic
